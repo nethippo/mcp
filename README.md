@@ -69,20 +69,39 @@ uv sync
 uv pip install -e .
 ```
 
-## uvx Registration
+## Publishing
 
-This project can be published to Astral `uvx` so users can install it directly with `uvx`.
-
-1. Choose a uvx package name, for example `yourorg.redis-mcp-server`.
-2. Confirm `pyproject.toml` contains the project metadata and entry point:
-   - `name = "redis-mcp-server"`
-   - `project.scripts` includes `"redis-mcp-server" = "redis_mcp_server.main:main"`
-3. Publish the package to `uvx` using your Astral account and workflow.
-   - Example: `uvx publish --name yourorg.redis-mcp-server --source .`
-4. After publishing, install it through `uvx`:
+To register this package with a Python package index, build a distribution and publish it using `uv`:
 
 ```bash
-uvx yourorg.redis-mcp-server@latest
+uv build
+uv publish dist/*
+```
+
+If you want to publish to a named index, you must first configure that index in `uv` (for example with `uv.toml` or the `UV_CONFIG_FILE` environment variable). Without that configuration, `uv publish --index <index-name> dist/*` will fail with:
+
+> `No indexes were found, can't use index: <index-name>`
+
+Example direct publish using a URL and credentials:
+
+```bash
+uv publish --publish-url https://upload.example.com dist/* \
+  --username <username> --password <password>
+```
+
+Or using environment variables:
+
+```bash
+export UV_PUBLISH_URL=https://upload.example.com
+export UV_PUBLISH_USERNAME=<username>
+export UV_PUBLISH_PASSWORD=<password>
+uv publish dist/*
+```
+
+If you do have a configured index, the named-index flow looks like:
+
+```bash
+uv publish --index <index-name> dist/*
 ```
 
 ### uvx in Claude Desktop
@@ -95,7 +114,7 @@ Once the package is registered in `uvx`, use this configuration in Claude Deskto
     "redis": {
       "command": "uvx",
       "args": [
-        "yourorg.redis-mcp-server@latest"
+        "bcs.redis-mcp-server@latest"
       ],
       "env": {
         "REDIS_HOST": "localhost",

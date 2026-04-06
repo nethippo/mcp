@@ -17,7 +17,8 @@ dependencies = [
     "numpy>=2.2.4",
 ]
 license = "Apache-2.0"
-license-files = ["LICENSE", "NOTICE" ]
+license-files = ["LICENSE", "NOTICE"]
+keywords = ["redis", "mcp", "mcp-server", "redis-mcp-server", "redis8", "model-context-protocol"]
 authors = [
     {name = "Redis MCP Server"},
 ]
@@ -39,7 +40,7 @@ repository = "https://github.com/redis-mcp/redis-mcp-server"
 package = "bcs.redis-mcp-server"
 
 [project.scripts]
-"redis 8 mcp server" = "redis_mcp_server.main:main"
+redis-mcp-server = "redis_mcp_server.main:main"
 
 [dependency-groups]
 dev = [

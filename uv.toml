@@ -1,0 +1,16 @@
+# uv configuration for publishing packages with uv
+#
+# Define one or more publish indexes here. The `name` value is the alias
+# used with `uv publish --index <name> dist/*`.
+
+[[index]]
+name = "pypi"
+url = "https://pypi.org/simple/"
+publish-url = "https://upload.pypi.org/legacy/"
+explicit = true
+
+# For PyPI publishing, you can omit the --index option entirely:
+#   uv publish dist/*
+# Or use:
+#   uv publish --index pypi dist/*
+

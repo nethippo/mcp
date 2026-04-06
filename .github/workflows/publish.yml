@@ -1,0 +1,28 @@
+name: Publish to GitHub Packages
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install uv
+      run: pip install uv
+    - name: Build package
+      run: uv build
+    - name: Publish to GitHub Packages
+      run: |
+        uv publish dist/* \
+          --publish-url https://upload.registry.github.com/nethippo/legacy/ \
+          --token ${{ secrets.GITHUB_TOKEN }}
