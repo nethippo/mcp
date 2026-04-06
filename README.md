@@ -69,6 +69,45 @@ uv sync
 uv pip install -e .
 ```
 
+## uvx Registration
+
+This project can be published to Astral `uvx` so users can install it directly with `uvx`.
+
+1. Choose a uvx package name, for example `yourorg.redis-mcp-server`.
+2. Confirm `pyproject.toml` contains the project metadata and entry point:
+   - `name = "redis-mcp-server"`
+   - `project.scripts` includes `"redis-mcp-server" = "redis_mcp_server.main:main"`
+3. Publish the package to `uvx` using your Astral account and workflow.
+   - Example: `uvx publish --name yourorg.redis-mcp-server --source .`
+4. After publishing, install it through `uvx`:
+
+```bash
+uvx yourorg.redis-mcp-server@latest
+```
+
+### uvx in Claude Desktop
+
+Once the package is registered in `uvx`, use this configuration in Claude Desktop:
+
+```json
+{
+  "mcpServers": {
+    "redis": {
+      "command": "uvx",
+      "args": [
+        "yourorg.redis-mcp-server@latest"
+      ],
+      "env": {
+        "REDIS_HOST": "localhost",
+        "REDIS_PORT": "6379",
+        "REDIS_DB": "0",
+        "REDIS_READONLY": "false"
+      }
+    }
+  }
+}
+```
+
 ## Claude Desktop Integration
 
 You can integrate this Redis MCP server with Claude Desktop to use Redis operations directly in your conversations.
