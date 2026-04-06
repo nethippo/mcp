@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "redis-mcp-server"
+version = "1.0.0"
+description = "A standalone Model Context Protocol (MCP) server for Redis 8"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "loguru>=0.7.0",
+    "mcp[cli]>=1.23.0",
+    "pydantic>=2.10.6",
+    "redis>=5.0.0",
+    "dotenv>=0.9.9",
+    "numpy>=2.2.4",
+]
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE" ]
+authors = [
+    {name = "Redis MCP Server"},
+]
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+homepage = "https://github.com/redis-mcp/redis-mcp-server"
+repository = "https://github.com/redis-mcp/redis-mcp-server"
+
+[project.scripts]
+"redis-mcp-server" = "redis_mcp_server.main:main"
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.2.2",
+    "pre-commit>=4.1.0",
+    "ruff>=0.9.7",
+    "pyright>=1.1.398",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.26.0",
+]
