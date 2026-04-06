@@ -35,8 +35,11 @@ classifiers = [
 homepage = "https://github.com/redis-mcp/redis-mcp-server"
 repository = "https://github.com/redis-mcp/redis-mcp-server"
 
+[tool.uvx]
+package = "bcs.redis-mcp-server"
+
 [project.scripts]
-"redis-mcp-server" = "redis_mcp_server.main:main"
+"redis 8 mcp server" = "redis_mcp_server.main:main"
 
 [dependency-groups]
 dev = [
