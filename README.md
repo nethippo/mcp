@@ -1,5 +1,7 @@
 # Redis MCP Server
 
+> **Note**: This software is a fork of the AWS MCP server project, refactored and specialized for Redis 8. It has been completely restructured to remove all AWS dependencies and focus exclusively on Redis operations.
+
 A standalone Model Context Protocol (MCP) server for Redis 8, providing comprehensive Redis operations through MCP tools.
 
 ## Features
@@ -66,6 +68,158 @@ uv sync
 # Install the package in development mode
 uv pip install -e .
 ```
+
+## Claude Desktop Integration
+
+You can integrate this Redis MCP server with Claude Desktop to use Redis operations directly in your conversations.
+
+### Quick Setup (Recommended)
+
+1. **Install Claude Desktop** from [Anthropic's website](https://docs.anthropic.com/claude/docs/desktop)
+
+2. **Create MCP Configuration File**:
+   - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - Windows: `%APPDATA%/Claude/claude_desktop_config.json`
+   - Linux: `~/.config/Claude/claude_desktop_config.json`
+
+3. **Install the Redis MCP Server** from git and add to your configuration:
+
+```bash
+# Install from git repository
+uv pip install git+https://github.com/your-username/redis-mcp-server.git
+```
+
+4. **Add the Redis MCP Server** to your Claude Desktop configuration:
+
+```json
+{
+  "mcpServers": {
+    "redis": {
+      "command": "redis-mcp-server",
+      "env": {
+        "REDIS_HOST": "localhost",
+        "REDIS_PORT": "6379",
+        "REDIS_DB": "0",
+        "REDIS_READONLY": "false"
+      }
+    }
+  }
+}
+```
+
+**Replace `your-username` with your actual GitHub username or organization name.**
+
+### Alternative: Direct Execution (Development)
+
+For development or testing, you can run directly from the git repository:
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/redis-mcp-server.git
+cd redis-mcp-server
+
+# Install dependencies
+uv sync
+```
+
+Then use this configuration:
+
+```json
+{
+  "mcpServers": {
+    "redis": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--project",
+        "/path/to/your/local/redis-mcp-server",
+        "redis-mcp-server"
+      ],
+      "env": {
+        "REDIS_HOST": "localhost",
+        "REDIS_PORT": "6379",
+        "REDIS_DB": "0",
+        "REDIS_READONLY": "false"
+      }
+    }
+  }
+}
+```
+
+Replace `/path/to/your/redis-mcp-server` with the actual path to your cloned repository.
+
+### Configuration Options
+
+You can customize the Redis connection through environment variables:
+
+| Environment Variable | Default | Description |
+|---------------------|---------|-------------|
+| `REDIS_HOST` | `localhost` | Redis server hostname |
+| `REDIS_PORT` | `6379` | Redis server port |
+| `REDIS_DB` | `0` | Redis database number |
+| `REDIS_PASSWORD` | (none) | Redis password (if required) |
+| `REDIS_READONLY` | `false` | Enable readonly mode |
+
+### Example Configurations
+
+**Basic Local Redis**:
+```json
+{
+  "mcpServers": {
+    "redis": {
+      "command": "uv",
+      "args": ["run", "--project", "/path/to/redis-mcp-server", "redis-mcp-server"]
+    }
+  }
+}
+```
+
+**Remote Redis with Authentication**:
+```json
+{
+  "mcpServers": {
+    "redis": {
+      "command": "uv",
+      "args": ["run", "--project", "/path/to/redis-mcp-server", "redis-mcp-server"],
+      "env": {
+        "REDIS_HOST": "redis.example.com",
+        "REDIS_PORT": "6379",
+        "REDIS_PASSWORD": "your-password",
+        "REDIS_DB": "1"
+      }
+    }
+  }
+}
+```
+
+**Readonly Mode for Safe Operations**:
+```json
+{
+  "mcpServers": {
+    "redis": {
+      "command": "uv",
+      "args": ["run", "--project", "/path/to/redis-mcp-server", "redis-mcp-server"],
+      "env": {
+        "REDIS_READONLY": "true"
+      }
+    }
+  }
+}
+```
+
+### Testing the Integration
+
+1. Save the configuration file
+2. Restart Claude Desktop
+3. Start a new conversation
+4. You should see Redis tools available in the tool picker
+
+### Troubleshooting
+
+- **Server won't start**: Ensure `uv` is installed and the project path is correct
+- **Connection failed**: Check Redis server is running and credentials are correct
+- **Tools not appearing**: Restart Claude Desktop after configuration changes
+- **Permission issues**: Ensure Claude Desktop has access to the project directory
 
 ## Usage
 
